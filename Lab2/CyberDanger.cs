@@ -8,25 +8,25 @@ namespace Lab2
 {
     public class CyberDanger
     {
-        public int id;
-        public string name;
-        public string description;
-        public string source;
-        public string target;
-        public bool conf;
-        public bool integrity;
-        public bool access;
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Source { get; set; }
+        public string Target { get; set; }
+        public bool Conf { get; set; }
+        public bool Integrity { get; set; }
+        public bool Access { get; set; }
 
         public static Dictionary<string, string> translation = new Dictionary<string, string>()
         {
-            { "id" , "Идентификатор"},
-            { "name" , "Наименование"},
-            { "description" , "Описание"},
-            { "source" , "Источник"},
-            { "target" , "Объект воздействия"},
-            { "conf" , "Нарушение конфиденциальности"},
-            { "integrity" , "Нарушение целостности"},
-            { "access" , "Нарушение доступности"},
+            { "Id" , "Идентификатор"},
+            { "Name" , "Наименование"},
+            { "Description" , "Описание"},
+            { "Source" , "Источник"},
+            { "Target" , "Объект воздействия"},
+            { "Conf" , "Нарушение конфиденциальности"},
+            { "Integrity" , "Нарушение целостности"},
+            { "Access" , "Нарушение доступности"},
         };
 
     }

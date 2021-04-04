@@ -23,14 +23,14 @@ namespace Lab2
                 for (int i = 3; i < rowsNum; i++)
                 {
                     var danger = new CyberDanger();
-                    int.TryParse(ws.Cells[i, 1].Text, out danger.id);
-                    danger.name = ws.Cells[i, 2].Text;
-                    danger.description = ws.Cells[i, 3].Text;
-                    danger.source = ws.Cells[i, 4].Text;
-                    danger.target = ws.Cells[i, 5].Text;
-                    danger.conf = ws.Cells[i, 6].Text == "1";
-                    danger.integrity = ws.Cells[i, 7].Text == "1";
-                    danger.access = ws.Cells[i, 8].Text == "1";
+                    danger.Id = ws.Cells[i, 1].Text;
+                    danger.Name = ws.Cells[i, 2].Text;
+                    danger.Description = ws.Cells[i, 3].Text;
+                    danger.Source = ws.Cells[i, 4].Text;
+                    danger.Target = ws.Cells[i, 5].Text;
+                    danger.Conf = ws.Cells[i, 6].Text == "1";
+                    danger.Integrity = ws.Cells[i, 7].Text == "1";
+                    danger.Access = ws.Cells[i, 8].Text == "1";
                     dangersList.Add(danger);
                 }
             }

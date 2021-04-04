@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,25 +24,75 @@ namespace Lab2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static string file = "data.xlsx";
+        static string file = "data.xlsx";
+        private Pagination dataPaging = new Pagination();
+        private List<CyberDanger> cyberDangers = new List<CyberDanger>();
+
         public MainWindow()
         {
-            
-            if (!File.Exists(file))
+            InitializeComponent();
+            dataPaging.PageIndex = 0;
+            int[] recordsToShow = { 15, 50, 100 };
+            foreach (int recordsPerPage in recordsToShow)
+            {
+                RowsPerPage_Box.Items.Add(recordsPerPage);
+            }
+            dataPaging.RecordsPerPage = Convert.ToInt32(RowsPerPage_Box.SelectedItem);
+            if (File.Exists(file))
+            {
+                cyberDangers = ExcelParser.GetDataFromFile(file);
+            }
+            else
             {
                 using (var client = new WebClient())
                 {
                     client.DownloadFile("https://bdu.fstec.ru/files/documents/thrlist.xlsx", file);
                 }
             }
-            InitializeComponent();
+            dataPaging.CyberDangers = cyberDangers;
+            Data_Table.ItemsSource = dataPaging.SetPaging();
+            PageInfo_Label.Content = PageNumberDisplay();
         }
 
+        public string PageNumberDisplay()
+        {
+            int totalPages = (cyberDangers.Count + dataPaging.RecordsPerPage - 1) / dataPaging.RecordsPerPage;
+            return "Страница " + (dataPaging.PageIndex + 1) + " из " + totalPages;
+        }
         private void DB_Update_Button_Click(object sender, RoutedEventArgs e)
         {
-            var dataFromFile = ExcelParser.GetDataFromFile(file);
-            MessageBox.Show(dataFromFile.Count.ToString());
-            Data_Table.ItemsSource = new Pagination().PagedTable(dataFromFile).DefaultView;
+            cyberDangers = ExcelParser.GetDataFromFile(file);
+        }
+
+        private void FirstPage_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Data_Table.ItemsSource = dataPaging.First();
+            PageInfo_Label.Content = PageNumberDisplay();
+        }
+
+        private void PreviousPage_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Data_Table.ItemsSource = dataPaging.Previous();
+            PageInfo_Label.Content = PageNumberDisplay();
+        }
+
+        private void NextPage_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Data_Table.ItemsSource = dataPaging.Next();
+            PageInfo_Label.Content = PageNumberDisplay();
+        }
+
+        private void LastPage_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Data_Table.ItemsSource = dataPaging.Last();
+            PageInfo_Label.Content = PageNumberDisplay();
+        }
+
+        private void RowsPerPage_Box_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            dataPaging.RecordsPerPage = Convert.ToInt32(RowsPerPage_Box.SelectedItem);
+            Data_Table.ItemsSource = dataPaging.First();
+            PageInfo_Label.Content = PageNumberDisplay();
         }
     }
 }

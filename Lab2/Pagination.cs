@@ -11,28 +11,42 @@ namespace Lab2
     class Pagination
     {
         public int PageIndex { get; set; }
-        DataTable pagedList = new DataTable();
+        public int RecordsPerPage { get; set; }
+        public List<CyberDanger> CyberDangers { get; set; } = new List<CyberDanger>();
 
-
-        public DataTable PagedTable(IList<CyberDanger> sourceList)
+        public List<CyberDanger> Next()
         {
-            DataTable tableToReturn = new DataTable();
-            foreach (var trans in CyberDanger.translation)
+            PageIndex++;
+            if (PageIndex >= CyberDangers.Count / RecordsPerPage)
             {
-                tableToReturn.Columns.Add(trans.Value);
+                PageIndex = CyberDangers.Count / RecordsPerPage;
             }
-            foreach (var item in sourceList)
+            return SetPaging();
+        }
+        public List<CyberDanger> Previous()
+        {
+            PageIndex--;
+            if (PageIndex <= 0)
             {
-                DataRow tableRow = tableToReturn.NewRow();
-                foreach (var dictItem in CyberDanger.translation)
-                {
-                    Type tempType = typeof(CyberDanger);
-                    FieldInfo fieldInfo = tempType.GetField(dictItem.Key);
-                    tableRow[dictItem.Value] = fieldInfo.GetValue(item);
-                }
-                tableToReturn.Rows.Add(tableRow);
+                PageIndex = 0;
             }
-            return tableToReturn;
+            return SetPaging();
+        }
+        public List<CyberDanger> First()
+        {
+            PageIndex = 0;
+            return SetPaging();
+        }
+
+        public List<CyberDanger> Last()
+        {
+            PageIndex = CyberDangers.Count / RecordsPerPage; 
+            return SetPaging();
+        }
+        public List<CyberDanger> SetPaging()
+        {
+            int pageGroup = PageIndex * RecordsPerPage;
+            return CyberDangers.Skip(pageGroup).Take(RecordsPerPage).ToList();
         }
     }
 
