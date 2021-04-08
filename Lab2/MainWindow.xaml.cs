@@ -24,7 +24,6 @@ namespace Lab2
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string file = "data.xlsx";
         private Pagination dataPaging = new Pagination();
         private List<CyberDanger> cyberDangers = new List<CyberDanger>();
 
@@ -83,6 +82,19 @@ namespace Lab2
             dataPaging.RecordsPerPage = Convert.ToInt32(RowsPerPage_Box.SelectedItem);
             Data_Table.ItemsSource = dataPaging.First();
             PageInfo_Label.Content = PageNumberDisplay();
+        }
+
+        private void DeleteLocalFiles_Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Directory.Delete(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DangersParser"), true);
+                MessageBox.Show("Локальные файлы успешно удалены");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Упс, что то пошло не так, не удалось удалить локальные файлы");
+            }
         }
     }
 }
