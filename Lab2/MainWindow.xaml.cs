@@ -38,17 +38,7 @@ namespace Lab2
                 RowsPerPage_Box.Items.Add(recordsPerPage);
             }
             dataPaging.RecordsPerPage = Convert.ToInt32(RowsPerPage_Box.SelectedItem);
-            if (File.Exists(file))
-            {
-                cyberDangers = ExcelParser.GetDataFromFile(file);
-            }
-            else
-            {
-                using (var client = new WebClient())
-                {
-                    client.DownloadFile("https://bdu.fstec.ru/files/documents/thrlist.xlsx", file);
-                }
-            }
+            cyberDangers = CyberDangersListGetter.Get();
             dataPaging.CyberDangers = cyberDangers;
             Data_Table.ItemsSource = dataPaging.SetPaging();
             PageInfo_Label.Content = PageNumberDisplay();
@@ -61,7 +51,7 @@ namespace Lab2
         }
         private void DB_Update_Button_Click(object sender, RoutedEventArgs e)
         {
-            cyberDangers = ExcelParser.GetDataFromFile(file);
+            cyberDangers = CyberDangersListGetter.Get();
         }
 
         private void FirstPage_Button_Click(object sender, RoutedEventArgs e)

@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="CyberDanger.cs" />
     <Compile Include="ExcelParser.cs" />
+    <Compile Include="CyberDangersListGetter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
