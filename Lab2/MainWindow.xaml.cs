@@ -50,7 +50,7 @@ namespace Lab2
         }
         private void DB_Update_Button_Click(object sender, RoutedEventArgs e)
         {
-            cyberDangers = CyberDangersListGetter.Get();
+            cyberDangers = CyberDangersListGetter.GetWithChanges(cyberDangers);
         }
 
         private void FirstPage_Button_Click(object sender, RoutedEventArgs e)

@@ -20,11 +20,13 @@ namespace Lab2
         {
             if (!File.Exists(localFilePath))
             {
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DangersParser"));
+                
                 MessageBoxResult result = MessageBox.Show("Локальная база угоз не обнаружена, загрузить?", "Предупреждение", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    return GetFromWeb();
+                    var dangersList = GetFromWeb();
+                    SaveToLocal(dangersList);
+                    return dangersList;
                 }
                 else
                 {
@@ -34,10 +36,45 @@ namespace Lab2
             return GetFromLocal();
         }
 
+        public static List<CyberDanger> GetWithChanges(List<CyberDanger> cyberDangersOld)
+        {
+            var cyberDangersNew = GetFromWeb();
+            SaveToLocal(cyberDangersNew);
+            cyberDangersNew = GetFromLocal();
+            var added = new List<string>();
+            var deleted = new List<string>();
+            foreach (var danger in cyberDangersOld)
+            {
+                if (!cyberDangersNew.Contains(danger))
+                {
+                    deleted.Add(danger.ToShortString());
+                }
+            }
+            foreach (var danger in cyberDangersNew)
+            {
+                if (!cyberDangersOld.Contains(danger))
+                {
+                    added.Add(danger.ToShortString());
+                }
+            }
+            if (added.Count == 0 && deleted.Count == 0)
+            {
+                MessageBox.Show("Никаких изменений не обнаружено");
+                return cyberDangersOld;
+            }
+            MessageBoxResult result = MessageBox.Show("База успешно обновлена, показать изменения?", "Успешное обновление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                ChangesWindow changesWindow = new ChangesWindow(added, deleted);
+                changesWindow.Show();
+            }
+            return cyberDangersNew;
+        }
+
         private static void SaveToLocal(List<CyberDanger> dangersList)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<CyberDanger>));
-            using (TextWriter writer = new StreamWriter(localFilePath))
+            using (StreamWriter writer = new StreamWriter(localFilePath))
             {
                 serializer.Serialize(writer, dangersList);
             }
@@ -56,6 +93,7 @@ namespace Lab2
 
         private static List<CyberDanger> GetFromWeb()
         {
+            Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DangersParser"));
             using (var client = new WebClient())
             {
                 try
@@ -76,7 +114,6 @@ namespace Lab2
                 }
             }
             var list = ExcelParser.GetDataFromFile(localDBPath);
-            SaveToLocal(list);
             return list;
         }
     }
