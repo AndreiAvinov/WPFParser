@@ -91,10 +91,15 @@ namespace Lab2
                 Directory.Delete(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DangersParser"), true);
                 MessageBox.Show("Локальные файлы успешно удалены");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Упс, что то пошло не так, не удалось удалить локальные файлы");
+                MessageBox.Show($"Упс, что то пошло не так, не удалось удалить локальные файлы\n{ex.Message}");
             }
+        }
+
+        private void Data_Table_RowClick(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

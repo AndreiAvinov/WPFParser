@@ -5,21 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1600">
+        Title="MainWindow" Height="1017" Width="954">
     <Grid>
         <Grid Margin="10">
 
-            <DataGrid x:Name="Data_Table" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0,212,0">
+            <DataGrid x:Name="Data_Table" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0,212,0" ItemsSource="{Binding Mode=OneWay}" MouseDoubleClick="Data_Table_RowClick">
                 <DataGrid.Columns>
-                    <DataGridTextColumn ClipboardContentBinding="{x:Null}" Binding="{Binding Id}" Header="Идентификатор"/>
-                    <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Наименование"/>
-                    <DataGridTextColumn Binding="{Binding Description}" ClipboardContentBinding="{x:Null}" Header="Описание"/>
-                    <DataGridTextColumn Binding="{Binding Source}" ClipboardContentBinding="{x:Null}" Header="Источник"/>
-                    <DataGridTextColumn Binding="{Binding Target}" ClipboardContentBinding="{x:Null}" Header="Объект воздействия"/>
-                    <DataGridCheckBoxColumn Binding="{Binding Conf}" ClipboardContentBinding="{x:Null}" Header="Нарушение конфиденциальности"/>
-                    <DataGridCheckBoxColumn Binding="{Binding Integrity}" ClipboardContentBinding="{x:Null}" Header="Нарушение целостности"/>
-                    <DataGridCheckBoxColumn Binding="{Binding Access}" ClipboardContentBinding="{x:Null}" Header="Нарушение доступности"/>
+                    <DataGridTextColumn Binding="{Binding SpecId, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Идентификатор"/>
+                    <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Название"/>
                 </DataGrid.Columns>
+                <DataGrid.DataContext>
+                    <local:CyberDanger/>
+                </DataGrid.DataContext>
             </DataGrid>
             <Grid Margin="0,0,0,154" Height="680" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="195">
                 <Button x:Name="DB_Update_Button" Content="Обновить локальную БД" VerticalAlignment="Top" Height="80" Click="DB_Update_Button_Click"/>
@@ -28,14 +25,13 @@
                     <Button x:Name="PreviousPage_Button" Content="Назад" Margin="0,50,0,155" Click="PreviousPage_Button_Click"/>
                     <Button x:Name="NextPage_Button" Content="Вперёд" Margin="0,155,0,50" Click="NextPage_Button_Click"/>
                     <Button x:Name="LastPage_Button" Content="В конец" Margin="0,205,0,0" Click="LastPage_Button_Click"/>
-                    <ComboBox x:Name="RowsPerPage_Box" Margin="145,105,0,105" IsReadOnly="True" SelectionChanged="RowsPerPage_Box_Changed" VerticalContentAlignment="Center" SelectedIndex="0"/>
+                    <ComboBox x:Name="RowsPerPage_Box" Margin="145,105,0,105" IsReadOnly="True" SelectionChanged="RowsPerPage_Box_Changed" VerticalContentAlignment="Center" SelectedIndex="1"/>
                     <Label x:Name="PageInfo_Label" Content="" Margin="0,105,80,105"/>
 
                 </Grid>
-
             </Grid>
         </Grid>
-        <Button x:Name="DeleteLocalFiles_Button" Content="Удалить локальные файлы" Margin="0,0,10,10" HorizontalAlignment="Right" Width="160" Height="20" VerticalAlignment="Bottom" Click="DeleteLocalFiles_Button_Click"/>
+        <Button x:Name="DeleteLocalFiles_Button" Content="Debug: Удалить локальные файлы" Margin="0,0,10,10" HorizontalAlignment="Right" Width="195" Height="20" VerticalAlignment="Bottom" Click="DeleteLocalFiles_Button_Click"/>
 
     </Grid>
 </Window>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Lab2
 {
@@ -16,6 +17,15 @@ namespace Lab2
         public bool Conf { get; set; }
         public bool Integrity { get; set; }
         public bool Access { get; set; }
+        [XmlIgnore]
+        public string SpecId
+        {
+            get
+            {
+                return $"УБИ.{Id}";
+            }
+            private set { }
+        }
 
         //public static Dictionary<string, string> translation = new Dictionary<string, string>()
         //{
@@ -36,15 +46,6 @@ namespace Lab2
 
         public bool Equals(CyberDanger other)
         {
-            //bool res = Id == other.Id &&
-            //       Name == other.Name &&
-            //       Description == other.Description &&
-            //       Source == other.Source &&
-            //       Target == other.Target &&
-            //       Conf == other.Conf &&
-            //       Integrity == other.Integrity &&
-            //       Access == other.Access;
-            //Console.WriteLine($"Visited Equals() method, result: {res}");
             return other != null &&
                    Id == other.Id &&
                    Name == other.Name &&
