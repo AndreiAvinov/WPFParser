@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1017" Width="954">
+        Title="Список угроз безопасности" Height="1050" Width="1050" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid Margin="10">
 
             <DataGrid x:Name="Data_Table" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0,212,0" ItemsSource="{Binding Mode=OneWay}" MouseDoubleClick="Data_Table_RowClick">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding SpecId, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Идентификатор"/>
+                    <DataGridTextColumn Binding="{Binding SpecId, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Идентификатор" SortMemberPath="Id"/>
                     <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Название"/>
                 </DataGrid.Columns>
                 <DataGrid.DataContext>

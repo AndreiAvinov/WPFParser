@@ -26,7 +26,6 @@ namespace Lab2
                 {
                     var dangersList = GetFromWeb();
                     SaveToLocal(dangersList);
-                    return dangersList;
                 }
                 else
                 {

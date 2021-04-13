@@ -99,7 +99,19 @@ namespace Lab2
 
         private void Data_Table_RowClick(object sender, MouseButtonEventArgs e)
         {
-
+            {
+                if (sender != null)
+                {
+                    DataGrid grid = sender as DataGrid;
+                    if (grid != null && grid.SelectedItems != null && grid.SelectedItems.Count == 1)
+                    {
+                        DataGridRow dgr = grid.ItemContainerGenerator.ContainerFromItem(grid.SelectedItem) as DataGridRow;
+                        CyberDanger selectedDanger = dgr.Item as CyberDanger;
+                        FullInformation fullInfoWindow = new FullInformation(selectedDanger);
+                        fullInfoWindow.Show();
+                    }
+                }
+            }
         }
     }
 }

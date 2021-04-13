@@ -23,7 +23,7 @@ namespace Lab2
                 for (int i = 3; i < rowsNum; i++)
                 {
                     var danger = new CyberDanger();
-                    danger.Id = ws.Cells[i, 1].Text;
+                    danger.Id = int.Parse(ws.Cells[i, 1].Text);
                     danger.Name = ws.Cells[i, 2].Text;
                     danger.Description = ws.Cells[i, 3].Text;
                     danger.Source = ws.Cells[i, 4].Text;
